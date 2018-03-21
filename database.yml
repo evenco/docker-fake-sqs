@@ -1,0 +1,6 @@
+---
+queues:
+  test:
+    QueueName: test
+    Arn: unused_arn
+    Attributes: {}
