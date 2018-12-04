@@ -1,13 +1,19 @@
-FROM ruby:2.4
+FROM ruby:2.2.2
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Keep the source in /var/lib for reference
+WORKDIR /var/lib/sqs
+COPY . /var/lib/sqs
 
-ADD . /usr/src/app
-RUN bundle install --system
+# Install the bundle
+RUN bundle install
 
-COPY database.yml /database.yml
+# Configuration options
+# - SERVER: Server to use (thin, mongrel or webrick)
+# - DATABASE: Where to store the database (defaults to :memory:)
+ENV SERVER=thin DATABASE=:memory:
 
-EXPOSE 3000
+# Document the exposed port
+EXPOSE 4568
 
-CMD ["bin/fake_sqs", "-p", "3000", "--no-daemonize", "--database", "/database.yml"]
+# Expose the ENTRYPOINT
+ENTRYPOINT ["fake_sqs", "--no-daemonize"]
