@@ -1,28 +1,36 @@
-# Fake SQS [![Build Status](https://api.travis-ci.org/iain/fake_sqs.svg?branch=master)](http://travis-ci.org/iain/fake_sqs) [![Gem Version](https://badge.fury.io/rb/fake_sqs.svg)](https://badge.fury.io/rb/fake_sqs)
+# Docker Fake SQS
 
-Fake SQS is a lightweight server that mocks the Amazon SQS API.
+[![Docker Pulls](https://img.shields.io/docker/pulls/evenco/fake-sqs.svg)](https://hub.docker.com/r/evenco/sqs/)
 
-It is extremely useful for testing SQS applications in a sandbox environment without actually
-making calls to Amazon, which not only requires a network connection, but also costs
-money.
-
-Many features are supported and if you miss something, open a pull.
-
-## Installation
-
-```
-gem install fake_sqs
-```
+Dockerized [Fake SQS](https://github.com/iain/fake_sqs).
 
 ## Running
 
-```
-fake_sqs --database /path/to/database.yml
-```
-
-## Development
+Simply run the container:
 
 ```
-bundle install
-rake
+docker run -it -p 4568:4568 evenco/fake-sqs
 ```
+
+Or, from `docker-compose.yml`:
+
+```yaml
+services:
+  sqs:
+  image: evenco/fake-sqs
+  ports:
+    - 4568
+```
+
+## Configurations
+
+The majority of configurations are set to sane defaults for use within Docker,
+however, the following environment variables are available:
+
+- `SERVER`: Server to use (`thin`, `mongrel` or `webrick`)
+- `DATABASE`: Where to store the database (`:memory:`, `./path/to/database.yml`)
+
+> __Note:__ The `SERVER` defaults to `thin`, as `webrick` attempts to do reverse
+> dns lookups on every request which slows down the service drastically. There
+> is a setting to override this within webrick, but sinatra does not allow
+> server-specific setttings to be passed down.
