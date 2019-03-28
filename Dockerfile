@@ -1,4 +1,4 @@
-FROM ruby:2.2.2
+FROM ruby:2.3.0
 
 # Keep the source in /var/lib for reference
 WORKDIR /var/lib/sqs
@@ -16,4 +16,4 @@ ENV SERVER=thin DATABASE=:memory:
 EXPOSE 4568
 
 # Expose the ENTRYPOINT
-ENTRYPOINT ["fake_sqs", "--no-daemonize"]
+ENTRYPOINT ["fake_sqs", "--no-daemonize", "-v"]

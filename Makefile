@@ -1,5 +1,5 @@
-NAME = evenco/fake-sqs
-VERSION = 0.2.0
+NAME = evenco/sqs
+VERSION = 0.2.1
 IMAGE = $(NAME):$(VERSION)
 
 all: build

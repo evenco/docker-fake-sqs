@@ -62,4 +62,6 @@ end
 
 parser.parse!
 
-FakeSQS.to_rack(options).run!
+FakeSQS.to_rack(options).run! do |server|
+  server.backend.threadpool_size = 100
+end
